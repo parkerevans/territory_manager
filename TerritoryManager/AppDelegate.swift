@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
         }
-        
+                
         
         /*
         [Parse setApplicationId:@"U9SCT0e1SAeSaYSn3PvygpFseGvykWR7FxmSya9O"

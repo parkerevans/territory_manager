@@ -20,12 +20,12 @@ class TerritoryLogService:NSObject {
         
     }
     
-    func saveTerritoryLog(PFClassName:String, currentTerritoryId:String, checkInDate:NSDate?, checkOutDate:NSDate?, chosenPublisher:String, callback:(NSArray) -> Void) {
+    func saveTerritoryLog(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, callback:(NSArray) -> Void) {
         requestSave(PFClassName, currentTerritoryId: currentTerritoryId, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher)
         requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
     }
     
-    func requestSave(PFClassName:String, currentTerritoryId:String, checkInDate:NSDate?, checkOutDate:NSDate?, chosenPublisher:String) {
+    func requestSave(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String) {
         
         var newTerritoryLog  = PFObject(className: PFClassName)
         var newTerritory = PFObject(className: "Territory")
@@ -75,7 +75,7 @@ class TerritoryLogService:NSObject {
                 for object in objects {
                     var territoryLog : TerritoryLog = TerritoryLog()
                     territoryLog.territoryId = object["territoryId"] as? String
-                    territoryLog.checkinDate = object["checkinDate"] as? NSDate
+                    territoryLog.checkinDate = object["checkinDate"]
                     territoryLog.checkoutDate = object["checkoutDate"] as? NSDate
                     // TODO: Correct Publisher Field with an ID instead of Name
                     territoryLog.publisherId = object["publisher"] as? String

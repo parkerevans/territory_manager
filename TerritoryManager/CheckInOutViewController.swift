@@ -47,8 +47,8 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
     @IBAction func saveData(sender: AnyObject) {
         // grab the selected date from the date picker
         var chosenDate = self.datePicker.date
-        var checkInDate:NSDate?
-        var checkOutDate:NSDate?
+        var checkInDate:AnyObject?
+        var checkOutDate:AnyObject?
         var chosenPublisher = publisherData[self.publisherPicker.selectedRowInComponent(0)]
         // println("Selected Publisher is: \(chosenPublisher)")
         
@@ -56,9 +56,11 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
         var formatter = NSDateFormatter()
         formatter.dateFormat = "EEEE"
         let result = formatter.stringFromDate(chosenDate)
+        let null = NSNull()
         
         if currentTerritory?.status == "Available" {
             checkOutDate = chosenDate
+            checkInDate = null
             println("Checked Out!")
         } else {
             checkInDate = chosenDate
@@ -68,7 +70,7 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
         
         // Save the data in Parse.com
         service = TerritoryLogService()
-        service.saveTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritory!.territoryId!, checkInDate: chosenDate, checkOutDate: chosenDate, chosenPublisher: chosenPublisher){
+        service.saveTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritory!.territoryId!, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher){
             (response) in
             //self.loadTerritories(response as NSArray)
             self.dismissViewControllerAnimated(true, completion: nil)

@@ -31,10 +31,11 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
             style: .Default) { (action: UIAlertAction!) -> Void in
                 
                 let textField = alert.textFields![0] as UITextField
-                let statusField = "Active"
+                let statusField = "In"
+                let category = "Regular"
                 self.territories = []
                 self.service = TerritoryService()
-                self.service.saveTerritory("Territory", id: textField.text){
+                self.service.saveTerritory("Territory", id: textField.text, status:statusField, category:category){
                     (response) in
                     self.loadTerritories(response as NSArray)
                 }

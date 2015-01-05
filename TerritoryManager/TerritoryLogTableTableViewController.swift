@@ -86,9 +86,16 @@ class TerritoryLogTableTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("LogCell", forIndexPath: indexPath) as UITableViewCell
         
         let territoryLog = territoryLogs[indexPath.row]
+        var mainLabel = ""
+        if territoryLog.checkinDate is NSNull {
+            mainLabel = "In: " + "XX/XX/XX" +
+                "   Out: " + formatDate(territoryLog.checkoutDate!)
+        } else {
+            mainLabel = "In: " + formatDate((territoryLog.checkinDate! as NSDate)) +
+                "   Out: " + formatDate(territoryLog.checkoutDate!)
+        }
         
-        var mainLabel = "In: " + formatDate(territoryLog.checkinDate!) +
-            "   Out: " + formatDate(territoryLog.checkoutDate!)
+
         cell.textLabel?.text = mainLabel
         // cell.detailTextLabel?.text = territory.valueForKey("status") as String?
         cell.detailTextLabel?.text = territoryLog.publisherId
