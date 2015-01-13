@@ -25,6 +25,11 @@ class TerritoryService : NSObject {
         requestGet(PFClassName, callback: callback)
     }
     
+    func updateByTerritoryId(PFClassName:String, territoryId:String, status:String, category:String) {
+        
+        requestUpdateByTerritoryId(PFClassName, territoryId: territoryId, status: status, category: category)
+    }
+    
     func requestSave(PFClassName:String, id:String, status:String, category:String) {
         
         let territory = PFObject(className: PFClassName)
@@ -49,50 +54,52 @@ class TerritoryService : NSObject {
             (objects: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {
                 // The find succeeded.
-                NSLog("Successfully retrieved \(objects.count) territories.")
-                // Do something with the found objects
+                // NSLog("Successfully retrieved \(objects.count) territories.")
                 
                 for object in objects {
-                    var territory : Territory = Territory()
+                    var territory:Territory = Territory()
                     territory.territoryId = object["territoryId"] as? String
                     territory.status = object["status"] as? String
                     territory.category = object["category"] as? String
+                    territory.objectId = object.objectId
                     response.append(territory)
-                    NSLog("%@", object.objectId)
+                    // println("Array territory objectId is: \(territory.objectId)")
+                    // NSLog("%@", object.objectId)
                 }
             } else {
                 // Log details of the failure
                 NSLog("Error: %@ %@", error, error.userInfo!)
             }
+
             callback(response)
 
         }
 
     }
     
-    func requestGetById(PFClassName:String, territoryId:String, callback:(NSArray) -> Void) {
+    func requestUpdateByTerritoryId(PFClassName:String, territoryId:String, status:String, category:String) {
         
-        var response = [Territory]()
+        // var response = [Territory]()
         var query = PFQuery(className:PFClassName)
+        var queryResults = [AnyObject]()
         query.whereKey("territoryId", equalTo:territoryId)
-        query.limit = 300
-        
-        query.getFirstObjectInBackgroundWithBlock {
-            (object: PFObject!, error: NSError!) -> Void in
-            if object != nil {
-                NSLog("The getFirstObject request failed.")
-            } else {
-                // The find succeeded.
-                var territory : Territory = Territory()
-                territory.territoryId = object["territoryId"] as? String
-                territory.status = object["status"] as? String
-                territory.category = object["category"] as? String
-                response.append(territory)
-                NSLog("Successfully retrieved the object %@.",object.objectId)
+        query.limit = 1
+        queryResults = query.findObjects()
+        if queryResults.isEmpty {
+            println("Territory \(territoryId) Not Found!")
+        } else {
+            for queryResult in queryResults {
+                var object = PFObject(className: PFClassName)
+                object = queryResult as PFObject
+                //object["territoryId"] = currentTerritoryId
+                //object["category"] = category
+                object["status"] = status
+                object.saveEventually()
+                
             }
-            callback(response)
             
         }
+        
     }
     
     

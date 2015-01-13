@@ -16,7 +16,7 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
     @IBOutlet weak var datePicker: UIDatePicker!
     
     var currentTerritory:Territory?
-    var currentTerritoryId:String?
+    var lastCheckOutDate:AnyObject?
     var service:TerritoryLogService!
     let publisherData = ["Tim Cook", "Frank Cordero", "William Conde", "Fran Campbell", "Hugo Conde", "Rita Ferreira", "Gail Muller"]
     
@@ -53,28 +53,32 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
         // println("Selected Publisher is: \(chosenPublisher)")
         
         // create an NSDateFormatter
-        var formatter = NSDateFormatter()
-        formatter.dateFormat = "EEEE"
-        let result = formatter.stringFromDate(chosenDate)
+        // var formatter = NSDateFormatter()
+        // formatter.dateFormat = "EEEE"
+        // let result = formatter.stringFromDate(chosenDate)
         let null = NSNull()
+        var action:String?
+        var parent = currentTerritory?.objectId!
         
-        if currentTerritory?.status == "Available" {
+        if currentTerritory?.status == "In" {
             checkOutDate = chosenDate
             checkInDate = null
-            println("Checked Out!")
+            action = "CHECKOUT"
+            // println("Checked Out!")
         } else {
             checkInDate = chosenDate
-            println("Checked In")
+            checkOutDate = lastCheckOutDate
+            action = "CHECKIN"
+            // println("Checked In")
         }
         
+        println("Parent is: \(parent), Current Status is : \(currentTerritory?.status), Check Out Date is: \(checkOutDate)")
         
         // Save the data in Parse.com
         service = TerritoryLogService()
-        service.saveTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritory!.territoryId!, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher){
-            (response) in
-            //self.loadTerritories(response as NSArray)
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
+        service.saveTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritory!.territoryId!, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent!, action:action!)
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
         
     
         // create alert controller

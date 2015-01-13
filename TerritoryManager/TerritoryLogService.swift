@@ -15,55 +15,74 @@ class TerritoryLogService:NSObject {
     }
     
     func getTerritoryLog(PFClassName:String, currentTerritoryId:String, callback:(NSArray) -> Void) {
-        
         requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
         
     }
     
-    func saveTerritoryLog(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, callback:(NSArray) -> Void) {
-        requestSave(PFClassName, currentTerritoryId: currentTerritoryId, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher)
-        requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
+    
+    func saveTerritoryLog(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
+        requestSave(PFClassName, currentTerritoryId: currentTerritoryId, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent, action:action)
+        // requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
     }
     
-    func requestSave(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String) {
+    
+    
+    func requestSave(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
         
-        var newTerritoryLog  = PFObject(className: PFClassName)
-        var newTerritory = PFObject(className: "Territory")
-        var territoryQry = PFQuery(className: "Territory")
-        territoryQry.whereKey("territoryId", equalTo:currentTerritoryId)
-        territoryQry.limit = 1
-        territoryQry.findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]!, error: NSError!) -> Void in
-            if error == nil {
-                // The find succeeded.
-                NSLog("Successfully retrieved \(objects.count) territories.")
-                // Do something with the found objects
-                
-                println("This is the first object: \(objects[0].objectId)")
-                // Saving territory log
-                newTerritoryLog["territoryId"] = currentTerritoryId
-                newTerritoryLog["checkinDate"] = checkInDate
-                newTerritoryLog["checkoutDate"] = checkOutDate
-                newTerritoryLog["publisher"] = chosenPublisher
-                newTerritoryLog["parent"] = objects[0].objectId
-                newTerritoryLog["user"] = PFUser.currentUser()
-                newTerritoryLog.saveEventually()
-                
-            } else {
-                // Log details of the failure
-                NSLog("Error: %@ %@", error, error.userInfo!)
-            }
-        }
+        var territoryLogQry  = PFQuery(className: PFClassName)
+        var queryResults = [AnyObject]()
 
+        if action == "CHECKIN" {
+            territoryLogQry.whereKey("territoryId", equalTo:currentTerritoryId)
+            println("Check out Date : \(checkOutDate)")
+            territoryLogQry.whereKey("checkoutDate", equalTo:checkOutDate)
+            queryResults = territoryLogQry.findObjects()
+            
+            if queryResults.isEmpty {
+                println("Territory Log not found!")
+            } else {
+                for queryResult in queryResults {
+                    var object = PFObject(className: PFClassName)
+                    object = queryResult as PFObject
+                    //object["territoryId"] = currentTerritoryId
+                    object["checkinDate"] = checkInDate
+                    //object["checkoutDate"] = checkOutDate
+                    //object["publisher"] = chosenPublisher
+                    object["parent"] = parent
+                    //object["user"] = PFUser.currentUser()
+                    object.save()
+                    
+                    self.requestUpdateTerritory("Territory", currentTerritoryId: currentTerritoryId, status: "In", category: "")
+                    NSLog("Successfully saved the check-in object.")
+                }
+            }
+            
+        } else {
+            var newTerritoryLog = PFObject(className: PFClassName)
+            // Saving territory log
+            newTerritoryLog["territoryId"] = currentTerritoryId
+            newTerritoryLog["checkinDate"] = checkInDate
+            newTerritoryLog["checkoutDate"] = checkOutDate
+            newTerritoryLog["publisher"] = chosenPublisher
+            newTerritoryLog["parent"] = parent
+            newTerritoryLog["user"] = PFUser.currentUser()
+            newTerritoryLog.save()
+            
+            self.requestUpdateTerritory("Territory", currentTerritoryId: currentTerritoryId, status: "Out", category: "")
+            
+            NSLog("Successfully saved the check-out object.")
+        }
+        
         
     }
+    
     
     func requestGet(PFClassName:String, currentTerritoryId:String, callback:(NSArray) -> Void) {
         
         var response = [TerritoryLog]()
         var query = PFQuery(className:PFClassName)
         query.whereKey("territoryId", equalTo:currentTerritoryId)
-        query.orderByDescending("checkinDate")
+        query.orderByDescending("checkoutDate")
         query.limit = 300
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]!, error: NSError!) -> Void in
@@ -80,17 +99,26 @@ class TerritoryLogService:NSObject {
                     // TODO: Correct Publisher Field with an ID instead of Name
                     territoryLog.publisherId = object["publisher"] as? String
                     response.append(territoryLog)
-                    NSLog("%@", object.objectId)
+                    // NSLog("%@", object.objectId)
                 }
             } else {
                 // Log details of the failure
                 NSLog("Error: %@ %@", error, error.userInfo!)
             }
-            
             callback(response)
         }
-
         
 
     }
+    
+   
+    func requestUpdateTerritory(PFClassName:String, currentTerritoryId:String, status:String, category:String) -> Void {
+        let service = TerritoryService()
+        service.updateByTerritoryId("Territory", territoryId: currentTerritoryId, status:status, category:category)
+        
+    }
+    
+    
+    
+    
 }

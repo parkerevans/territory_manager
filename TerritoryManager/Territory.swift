@@ -12,16 +12,18 @@ class Territory: NSObject {
     var territoryId : String?
     var category : String?
     var status : String?
+    var objectId: String?
     
     override init() {
         super.init()
     }
     
-    init(territoryId:String, category:String, status:String) {
+    init(territoryId:String, category:String, status:String, objectId:String?) {
+        super.init()
         self.territoryId = territoryId
         self.category = category
         self.status = status
-        super.init()
+        self.objectId = objectId
     }
     
     

@@ -11,9 +11,9 @@ import UIKit
 class TerritoryLogTableTableViewController: UITableViewController {
     
     var currentTerritory:Territory?
-    // var currentTerritoryId:String? = ""
     var territoryLogs = [TerritoryLog]()
     var service : TerritoryLogService!
+    var lastCheckOutDate:NSDate?
 
 
     
@@ -118,6 +118,17 @@ class TerritoryLogTableTableViewController: UITableViewController {
         
         return result
     }
+    
+    func setCheckOutDate() {
+        
+        if self.territoryLogs.count == 0 {
+            self.lastCheckOutDate = NSDate()
+        } else {
+            println("Territory check-out: \(self.territoryLogs[0].checkoutDate)")
+            self.lastCheckOutDate = self.territoryLogs[0].checkoutDate
+        }
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -161,12 +172,14 @@ class TerritoryLogTableTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        
+        var checkOutDate:AnyObject?
+        setCheckOutDate()
         var checkinOutVC : CheckInOutViewController = segue.destinationViewController as CheckInOutViewController
         
-        checkinOutVC.currentTerritoryId = self.currentTerritory?.territoryId
+        // checkinOutVC.currentTerritoryId = self.currentTerritory?.territoryId
         checkinOutVC.currentTerritory = currentTerritory
-        println("Territory Log for territory id = \(self.currentTerritory?.territoryId)")
+        checkinOutVC.lastCheckOutDate = lastCheckOutDate
+        // println("Territory ID: \(currentTerritory?.objectId)")
         
     }
     

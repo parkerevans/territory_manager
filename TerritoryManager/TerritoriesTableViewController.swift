@@ -128,6 +128,7 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
             currentTerritory.territoryId = territory.territoryId
             currentTerritory.status = territory.status
             currentTerritory.category = territory.category
+            currentTerritory.objectId = territory.objectId
             self.territories.append(currentTerritory)
             
             // to refresh the UI in Asyn mode, we need to dispath the main queue
@@ -150,7 +151,6 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        // println("Territories are: \(territories.count)")
         return territories.count
     }
 
@@ -269,13 +269,13 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
         
         var indexPath:NSIndexPath = self.tableView.indexPathForSelectedRow()!
         var selectedCell:UITableViewCell = self.tableView.cellForRowAtIndexPath(indexPath)!
-        let currentTerritory = territories[indexPath.row]
+        let currentTerritory = territories[indexPath.row] as Territory
         
         var territoryLogVC : TerritoryLogTableTableViewController = segue.destinationViewController as TerritoryLogTableTableViewController
         
-        // TODO: send the selected territory.
-        // territoryLogVC.currentTerritoryId = selectedCell.textLabel?.text
         territoryLogVC.currentTerritory = currentTerritory
+        
+        // println("Object is \(territories[indexPath.row].objectId)")
     }
 
 }
