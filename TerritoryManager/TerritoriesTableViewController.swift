@@ -20,7 +20,9 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
     // var names = [String]()
     var territories = [Territory]()
     var service : TerritoryService!
+    var congregation:String = Settings.congregation.congregationId
 
+    
     @IBOutlet var territoriesTable: UITableView!
     
     @IBAction func addTerr(sender: AnyObject) {
@@ -33,11 +35,12 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
                 let textField = alert.textFields![0] as UITextField
                 let statusField = "In"
                 let category = "Regular"
+                println("Congregation value in Controller is: \(self.congregation)")
                 self.territories = []
                 self.service = TerritoryService()
-                self.service.saveTerritory("Territory", id: textField.text, status:statusField, category:category){
+                self.service.saveTerritory("Territory", id: textField.text.toInt()!, status:statusField, category:category, congregationId:self.congregation){
                     (response) in
-                    self.loadTerritories(response as NSArray)
+                    self.loadTerritories(response as [Territory])
                 }
 
         }
@@ -110,18 +113,18 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
         
         */
         
-
+        
         self.territories = []
         service = TerritoryService()
-        service.getTerritory("Territory") {
+        service.getTerritory("Territory", congregationId: congregation) {
                 (response) in
-            self.loadTerritories(response as NSArray)
+            self.loadTerritories(response as [Territory])
         }
         
         
     }
     
-    func loadTerritories(territories:NSArray) {
+    func loadTerritories(territories:[Territory]) {
         
         for territory in territories {
             var currentTerritory:Territory = Territory()
@@ -129,12 +132,16 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
             currentTerritory.status = territory.status
             currentTerritory.category = territory.category
             currentTerritory.objectId = territory.objectId
+            currentTerritory.congregationId = territory.congregationId
             self.territories.append(currentTerritory)
             
             // to refresh the UI in Asyn mode, we need to dispath the main queue
+            /*
             dispatch_async(dispatch_get_main_queue()) {
                 self.tableView.reloadData()
             }
+            */
+            self.tableView.reloadData()
         }
         
 
@@ -157,10 +164,13 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TerritoryCell", forIndexPath: indexPath) as UITableViewCell
-
-        let territory = territories[indexPath.row]
-        cell.textLabel?.text = territory.valueForKey("territoryId") as String?
-        cell.detailTextLabel?.text = territory.valueForKey("status") as String?
+        if !(territories.isEmpty) {
+            println(territories[indexPath.row].territoryId)
+            let territory = territories[indexPath.row]
+            let toTerritoryIdInt = territory.territoryId!
+            cell.textLabel?.text = "\(toTerritoryIdInt)"
+            cell.detailTextLabel?.text = territory.status
+        }
 
         return cell
     }

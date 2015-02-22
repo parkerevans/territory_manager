@@ -18,6 +18,8 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
     var currentTerritory:Territory?
     var lastCheckOutDate:AnyObject?
     var service:TerritoryLogService!
+    let congregation:String = Settings.congregation.congregationId
+    
     let publisherData = ["Tim Cook", "Frank Cordero", "William Conde", "Fran Campbell", "Hugo Conde", "Rita Ferreira", "Gail Muller"]
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -76,7 +78,7 @@ class CheckInOutViewController: UIViewController, UIPickerViewDataSource, UIPick
         
         // Save the data in Parse.com
         service = TerritoryLogService()
-        service.saveTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritory!.territoryId!, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent!, action:action!)
+        service.saveTerritoryLog("TerritoryLog",congregationId: congregation, currentTerritoryId: currentTerritory!.territoryId!, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent!, action:action!)
         self.dismissViewControllerAnimated(true, completion: nil)
         
         

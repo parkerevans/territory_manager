@@ -8,24 +8,16 @@
 
 import Foundation
 
-class Territory: NSObject {
-    var territoryId : String?
+class Territory {
+    var territoryId : Int?
     var category : String?
     var status : String?
     var objectId: String?
+    var congregationId: String?
     
-    override init() {
-        super.init()
+    init() {
+        
     }
-    
-    init(territoryId:String, category:String, status:String, objectId:String?) {
-        super.init()
-        self.territoryId = territoryId
-        self.category = category
-        self.status = status
-        self.objectId = objectId
-    }
-    
     
     // We will use this function in the future
     func toJSON() -> String {

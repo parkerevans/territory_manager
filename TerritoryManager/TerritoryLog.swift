@@ -8,27 +8,14 @@
 
 import Foundation
 
-class TerritoryLog: NSObject {
-    var territoryId : String?
+class TerritoryLog {
+    var territoryId : NSNumber?
     var checkinDate : AnyObject?
     var checkoutDate : NSDate?
     var publisherId : String?
     
-    override init() {
-        super.init()
-    }
-    
-    init(territoryId:String, checkDate:NSDate, publisherId:String, action:String) {
-        self.territoryId = territoryId
-        if action == "IN" {
-            self.checkinDate = checkDate
-        } else {
-            self.checkoutDate = checkDate
-            self.checkinDate = nil
-        }
-
-        self.publisherId = publisherId
-        super.init()
+    init() {
+        
     }
     
     // We will use this function in the future

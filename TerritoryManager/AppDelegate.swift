@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         Parse.setApplicationId("U9SCT0e1SAeSaYSn3PvygpFseGvykWR7FxmSya9O", clientKey: "Na9rzwIxOqZTD9JfzY0AuZQRulAeSJzgfVRotTph")
+        // Settings()
         
         // ****************************************************************************
         // Create or Login a user
@@ -48,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
                 
+
         
         /*
         [Parse setApplicationId:@"U9SCT0e1SAeSaYSn3PvygpFseGvykWR7FxmSya9O"

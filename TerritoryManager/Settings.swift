@@ -12,9 +12,14 @@ class Settings {
     
     var viewTerritories = "Parse"
     
+    struct congregation {
+        static var congregationId:String = "63032"
+    }
+    
     init() {
         
         Parse.setApplicationId("U9SCT0e1SAeSaYSn3PvygpFseGvykWR7FxmSya9O", clientKey: "Na9rzwIxOqZTD9JfzY0AuZQRulAeSJzgfVRotTph")
+        
     }
     
 }

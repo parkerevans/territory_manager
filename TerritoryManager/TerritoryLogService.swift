@@ -14,20 +14,20 @@ class TerritoryLogService:NSObject {
         super.init()
     }
     
-    func getTerritoryLog(PFClassName:String, currentTerritoryId:String, callback:(NSArray) -> Void) {
-        requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
+    func getTerritoryLog(PFClassName:String, congregationId:String, currentTerritoryId:NSNumber, callback:(NSArray) -> Void) {
+        requestGet(PFClassName, congregationId:congregationId, currentTerritoryId: currentTerritoryId, callback: callback)
         
     }
     
     
-    func saveTerritoryLog(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
-        requestSave(PFClassName, currentTerritoryId: currentTerritoryId, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent, action:action)
+    func saveTerritoryLog(PFClassName:String, congregationId:String, currentTerritoryId:Int, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
+        requestSave(PFClassName, congregationId:congregationId, currentTerritoryId: currentTerritoryId, checkInDate: checkInDate, checkOutDate: checkOutDate, chosenPublisher: chosenPublisher, parent: parent, action:action)
         // requestGet(PFClassName, currentTerritoryId: currentTerritoryId, callback: callback)
     }
     
     
     
-    func requestSave(PFClassName:String, currentTerritoryId:String, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
+    func requestSave(PFClassName:String, congregationId:String, currentTerritoryId:Int, checkInDate:AnyObject?, checkOutDate:AnyObject?, chosenPublisher:String, parent:String, action:String) {
         
         var territoryLogQry  = PFQuery(className: PFClassName)
         var queryResults = [AnyObject]()
@@ -52,7 +52,7 @@ class TerritoryLogService:NSObject {
                     //object["user"] = PFUser.currentUser()
                     object.save()
                     
-                    self.requestUpdateTerritory("Territory", currentTerritoryId: currentTerritoryId, status: "In", category: "")
+                    self.requestUpdateTerritory("Territory", congregationId:congregationId,currentTerritoryId: currentTerritoryId, status: "In", category: "")
                     NSLog("Successfully saved the check-in object.")
                 }
             }
@@ -68,7 +68,7 @@ class TerritoryLogService:NSObject {
             newTerritoryLog["user"] = PFUser.currentUser()
             newTerritoryLog.save()
             
-            self.requestUpdateTerritory("Territory", currentTerritoryId: currentTerritoryId, status: "Out", category: "")
+            self.requestUpdateTerritory("Territory", congregationId:congregationId,currentTerritoryId: currentTerritoryId, status: "Out", category: "")
             
             NSLog("Successfully saved the check-out object.")
         }
@@ -77,7 +77,7 @@ class TerritoryLogService:NSObject {
     }
     
     
-    func requestGet(PFClassName:String, currentTerritoryId:String, callback:(NSArray) -> Void) {
+    func requestGet(PFClassName:String, congregationId:String, currentTerritoryId:NSNumber, callback:(NSArray) -> Void) {
         
         var response = [TerritoryLog]()
         var query = PFQuery(className:PFClassName)
@@ -93,7 +93,7 @@ class TerritoryLogService:NSObject {
                 
                 for object in objects {
                     var territoryLog : TerritoryLog = TerritoryLog()
-                    territoryLog.territoryId = object["territoryId"] as? String
+                    territoryLog.territoryId = object["territoryId"] as? NSNumber
                     territoryLog.checkinDate = object["checkinDate"]
                     territoryLog.checkoutDate = object["checkoutDate"] as? NSDate
                     // TODO: Correct Publisher Field with an ID instead of Name
@@ -112,9 +112,9 @@ class TerritoryLogService:NSObject {
     }
     
    
-    func requestUpdateTerritory(PFClassName:String, currentTerritoryId:String, status:String, category:String) -> Void {
+    func requestUpdateTerritory(PFClassName:String, congregationId:String, currentTerritoryId:Int, status:String, category:String) -> Void {
         let service = TerritoryService()
-        service.updateByTerritoryId("Territory", territoryId: currentTerritoryId, status:status, category:category)
+        service.updateByTerritoryId("Territory", territoryId: currentTerritoryId, status:status, category:category, congregationId: congregationId)
         
     }
     

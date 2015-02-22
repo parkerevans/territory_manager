@@ -14,6 +14,7 @@ class TerritoryLogTableTableViewController: UITableViewController {
     var territoryLogs = [TerritoryLog]()
     var service : TerritoryLogService!
     var lastCheckOutDate:NSDate?
+    let congregation:String = Settings.congregation.congregationId
 
 
     
@@ -53,9 +54,9 @@ class TerritoryLogTableTableViewController: UITableViewController {
         var currentTerritoryId = self.currentTerritory?.territoryId
         self.territoryLogs = []
         service = TerritoryLogService()
-        service.getTerritoryLog("TerritoryLog", currentTerritoryId: currentTerritoryId!) {
+        service.getTerritoryLog("TerritoryLog", congregationId: congregation, currentTerritoryId: currentTerritoryId!) {
             (response) in
-            self.loadTerritoryLogs(response as NSArray)
+            self.loadTerritoryLogs(response as [TerritoryLog])
             
         }
         
@@ -63,10 +64,11 @@ class TerritoryLogTableTableViewController: UITableViewController {
 
     }
 
-    func loadTerritoryLogs(territoryLogs:NSArray) {
+    func loadTerritoryLogs(territoryLogs: [TerritoryLog]) {
         
         for territoryLog in territoryLogs {
             var currentTerritoryLog:TerritoryLog = TerritoryLog()
+            
             currentTerritoryLog.territoryId = territoryLog.territoryId
             currentTerritoryLog.checkinDate = territoryLog.checkinDate
             currentTerritoryLog.checkoutDate = territoryLog.checkoutDate
