@@ -14,7 +14,7 @@ class TerritoryLogService:NSObject {
         super.init()
     }
     
-    func getTerritoryLog(PFClassName:String, congregationId:String, currentTerritoryId:NSNumber, callback:(NSArray) -> Void) {
+    func getTerritoryLog(PFClassName:String, congregationId:String, currentTerritoryId:Int, callback:(NSArray) -> Void) {
         requestGet(PFClassName, congregationId:congregationId, currentTerritoryId: currentTerritoryId, callback: callback)
         
     }
@@ -77,7 +77,7 @@ class TerritoryLogService:NSObject {
     }
     
     
-    func requestGet(PFClassName:String, congregationId:String, currentTerritoryId:NSNumber, callback:(NSArray) -> Void) {
+    func requestGet(PFClassName:String, congregationId:String, currentTerritoryId:Int, callback:(NSArray) -> Void) {
         
         var response = [TerritoryLog]()
         var query = PFQuery(className:PFClassName)
@@ -93,7 +93,7 @@ class TerritoryLogService:NSObject {
                 
                 for object in objects {
                     var territoryLog : TerritoryLog = TerritoryLog()
-                    territoryLog.territoryId = object["territoryId"] as? NSNumber
+                    territoryLog.territoryId = object["territoryId"] as? Int
                     territoryLog.checkinDate = object["checkinDate"]
                     territoryLog.checkoutDate = object["checkoutDate"] as? NSDate
                     // TODO: Correct Publisher Field with an ID instead of Name

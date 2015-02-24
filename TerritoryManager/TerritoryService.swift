@@ -52,7 +52,7 @@ class TerritoryService : NSObject {
         // query.whereKey("status", equalTo:"Available")
         query.limit = 300
         query.whereKey("congregationId", equalTo: congregationId)
-        // query.orderByAscending("territoryId")
+        query.orderByAscending("territoryId")
         query.findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]!, error: NSError!) -> Void in
             if error == nil {

@@ -9,7 +9,7 @@
 import Foundation
 
 class TerritoryLog {
-    var territoryId : NSNumber?
+    var territoryId : Int?
     var checkinDate : AnyObject?
     var checkoutDate : NSDate?
     var publisherId : String?

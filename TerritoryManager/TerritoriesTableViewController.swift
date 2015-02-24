@@ -25,6 +25,7 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
     
     @IBOutlet var territoriesTable: UITableView!
     
+    /*
     @IBAction func addTerr(sender: AnyObject) {
         
         var alert = UIAlertController(title: "New Territory", message: "Add a new territory number", preferredStyle: .Alert)
@@ -35,12 +36,16 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
                 let textField = alert.textFields![0] as UITextField
                 let statusField = "In"
                 let category = "Regular"
-                println("Congregation value in Controller is: \(self.congregation)")
+                // println("Congregation value in Controller is: \(self.congregation)")
                 self.territories = []
                 self.service = TerritoryService()
                 self.service.saveTerritory("Territory", id: textField.text.toInt()!, status:statusField, category:category, congregationId:self.congregation){
                     (response) in
                     self.loadTerritories(response as [Territory])
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tableView.reloadData()
+                    }
                 }
 
         }
@@ -63,6 +68,7 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
         // territoriesTable.reloadData()
         
     }
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,12 +142,13 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
             self.territories.append(currentTerritory)
             
             // to refresh the UI in Asyn mode, we need to dispath the main queue
-            /*
+            
             dispatch_async(dispatch_get_main_queue()) {
                 self.tableView.reloadData()
             }
-            */
-            self.tableView.reloadData()
+            
+            
+            // self.tableView.reloadData()
         }
         
 
@@ -276,14 +283,29 @@ class TerritoriesTableViewController: UITableViewController, UITableViewDataSour
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        var currentTerritory:Territory?
+        var indexPath:NSIndexPath = NSIndexPath()
+        var selectedCell:UITableViewCell?
+        var territoryLogVC:TerritoryLogTableTableViewController = TerritoryLogTableTableViewController()
         
-        var indexPath:NSIndexPath = self.tableView.indexPathForSelectedRow()!
-        var selectedCell:UITableViewCell = self.tableView.cellForRowAtIndexPath(indexPath)!
-        let currentTerritory = territories[indexPath.row] as Territory
+        println(segue.identifier)
+        if (segue.identifier == "CreateTerritory") {
+            
+        } else {
+            indexPath = self.tableView.indexPathForSelectedRow()!
+            selectedCell = self.tableView.cellForRowAtIndexPath(indexPath)!
+            
+            currentTerritory = territories[indexPath.row] as Territory
+            
+            territoryLogVC = (segue.destinationViewController as TerritoryLogTableTableViewController)
+            
+            territoryLogVC.currentTerritory = currentTerritory
+        }
         
-        var territoryLogVC : TerritoryLogTableTableViewController = segue.destinationViewController as TerritoryLogTableTableViewController
         
-        territoryLogVC.currentTerritory = currentTerritory
+        
+
+        
         
         // println("Object is \(territories[indexPath.row].objectId)")
     }
