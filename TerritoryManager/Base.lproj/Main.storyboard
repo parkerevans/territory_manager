@@ -71,41 +71,82 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter New Territory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-gd-F68">
-                                <rect key="frame" x="230" y="84" width="180" height="27"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter New Territory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-gd-F68">
+                                <rect key="frame" x="210" y="72" width="180" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="CSF-Xn-jVO"/>
+                                    <constraint firstAttribute="width" constant="180" id="OM4-5k-mQS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Territory Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06v-Vo-jtt">
-                                <rect key="frame" x="254" y="186" width="132" height="25"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Territory Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06v-Vo-jtt">
+                                <rect key="frame" x="234" y="160" width="132" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="DYM-j0-elh"/>
+                                    <constraint firstAttribute="width" constant="132" id="qGv-HT-4nV"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2f-VM-Lp7">
-                                <rect key="frame" x="419" y="424" width="46" height="30"/>
-                                <state key="normal" title="Create">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DvH-6i-fsT">
-                                <rect key="frame" x="187" y="424" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DvH-6i-fsT">
+                                <rect key="frame" x="210" y="415" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="cancelButton:" destination="mfV-3O-eha" eventType="touchUpInside" id="WJL-Th-GW2"/>
+                                </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-S9-744">
-                                <rect key="frame" x="230" y="128" width="180" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-S9-744">
+                                <rect key="frame" x="210" y="107" width="180" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QFD-HF-awb">
-                                <rect key="frame" x="176" y="219" width="289" height="162"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QFD-HF-awb">
+                                <rect key="frame" x="156" y="193" width="289" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="289" id="fK5-Sp-Iqn"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="mfV-3O-eha" id="jci-GV-miW"/>
+                                    <outlet property="delegate" destination="mfV-3O-eha" id="Oq8-7g-lfV"/>
+                                </connections>
                             </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2f-VM-Lp7">
+                                <rect key="frame" x="399" y="415" width="46" height="30"/>
+                                <state key="normal" title="Create">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createButton:" destination="mfV-3O-eha" eventType="touchUpInside" id="72g-lU-Ntu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rkx-S9-744" firstAttribute="leading" secondItem="DvH-6i-fsT" secondAttribute="leading" id="3kO-9f-vEE"/>
+                            <constraint firstItem="rkx-S9-744" firstAttribute="leading" secondItem="PL6-gd-F68" secondAttribute="leading" id="3pf-bd-yFF"/>
+                            <constraint firstItem="QFD-HF-awb" firstAttribute="centerX" secondItem="W0V-VD-rbM" secondAttribute="centerX" id="7dj-mo-BkW"/>
+                            <constraint firstItem="06v-Vo-jtt" firstAttribute="centerX" secondItem="rkx-S9-744" secondAttribute="centerX" id="CwU-Vx-2jH"/>
+                            <constraint firstItem="rkx-S9-744" firstAttribute="trailing" secondItem="PL6-gd-F68" secondAttribute="trailing" id="DHO-uG-CLc"/>
+                            <constraint firstItem="O2f-VM-Lp7" firstAttribute="baseline" secondItem="DvH-6i-fsT" secondAttribute="baseline" id="Spf-SH-dzY"/>
+                            <constraint firstItem="QFD-HF-awb" firstAttribute="top" secondItem="06v-Vo-jtt" secondAttribute="bottom" constant="8" symbolic="YES" id="Ze2-BO-NTC"/>
+                            <constraint firstItem="06v-Vo-jtt" firstAttribute="top" secondItem="rkx-S9-744" secondAttribute="bottom" constant="23" id="aCz-rM-Is2"/>
+                            <constraint firstItem="QFD-HF-awb" firstAttribute="trailing" secondItem="O2f-VM-Lp7" secondAttribute="trailing" id="hBh-cF-AfY"/>
+                            <constraint firstItem="rkx-S9-744" firstAttribute="top" secondItem="PL6-gd-F68" secondAttribute="bottom" constant="8" symbolic="YES" id="nuW-CD-w1k"/>
+                            <constraint firstItem="DvH-6i-fsT" firstAttribute="top" secondItem="QFD-HF-awb" secondAttribute="bottom" constant="60" id="syk-oM-LOZ"/>
+                            <constraint firstItem="PL6-gd-F68" firstAttribute="top" secondItem="Igz-vR-uxP" secondAttribute="bottom" constant="8" symbolic="YES" id="ur6-pD-Hxg"/>
+                            <constraint firstItem="QFD-HF-awb" firstAttribute="centerX" secondItem="06v-Vo-jtt" secondAttribute="centerX" id="wYB-vM-FWj"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="territoryEntry" destination="rkx-S9-744" id="7KL-uA-Xt2"/>
+                        <outlet property="territoryNumber" destination="rkx-S9-744" id="XbL-xv-nC8"/>
+                        <outlet property="territoryTypePicker" destination="QFD-HF-awb" id="BB8-we-5wv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CQM-7g-24y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

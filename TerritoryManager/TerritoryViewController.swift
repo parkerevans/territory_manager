@@ -8,12 +8,30 @@
 
 import UIKit
 
-class TerritoryViewController: UIViewController {
+class TerritoryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    let territoryTypesData = ["Regular", "Business", "Other"]
 
+    @IBOutlet weak var territoryTypePicker: UIPickerView!
+    
+
+    @IBOutlet weak var territoryEntry: UITextField!
+    
+    
+    @IBAction func cancelButton(sender: AnyObject) {
+        
+    }
+    
+    
+    @IBAction func createButton(sender: AnyObject) {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,5 +49,21 @@ class TerritoryViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int) -> Int {
+            
+        return territoryTypesData.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return territoryTypesData[row]
+    }
+
 
 }
