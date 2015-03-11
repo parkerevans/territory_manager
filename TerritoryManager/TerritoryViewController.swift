@@ -11,20 +11,72 @@ import UIKit
 class TerritoryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     let territoryTypesData = ["Regular", "Business", "Other"]
-
-    @IBOutlet weak var territoryTypePicker: UIPickerView!
-    
+    var territories = [Territory]()
+    var service : TerritoryService!
+    var congregation:String = Settings.congregation.congregationId
+    var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var territoryEntry: UITextField!
     
+    @IBOutlet weak var territoryTypePicker: UIPickerView!
+    
     
     @IBAction func cancelButton(sender: AnyObject) {
-        
+        // self.navigationController?.popToRootViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
     @IBAction func createButton(sender: AnyObject) {
+        let textField = territoryEntry as UITextField
+        let statusField = "In"
+        let category = territoryTypesData[self.territoryTypePicker.selectedRowInComponent(0)]
+        // println("Congregation value in Controller is: \(self.congregation)")
         
+        displayActivityIndicator()
+        self.territories = []
+        self.service = TerritoryService()
+        self.service.addTerritory("Territory", id: textField.text.toInt()!, status:statusField, category:category, congregationId:self.congregation)
+        
+        removeActivityIndicator()
+
+        if self.service.saveError == nil {
+            
+            displayAlert("Success", message: "Territory \(textField.text) has been saved.")
+        
+        } else {
+            // do something else
+            displayAlert("Error When Saving Record", message: self.service.saveError?.userInfo?["error"] as NSString)
+        }
+        
+    }
+    
+    func displayAlert(title:String, message:String) {
+        
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+
+    }
+    
+    func displayActivityIndicator() {
+        
+        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+    }
+    
+    func removeActivityIndicator() {
+        activityIndicator.stopAnimating()
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
     override func viewDidLoad() {

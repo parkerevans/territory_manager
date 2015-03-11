@@ -10,6 +10,8 @@ import Foundation
 
 class TerritoryService : NSObject {
     
+    var saveError:NSError?
+    
     override init() {
         super.init()
     }
@@ -21,9 +23,16 @@ class TerritoryService : NSObject {
     
     func saveTerritory(PFClassName:String, id:Int, status:String, category:String, congregationId:String, callback:(NSArray)->Void) {
         
-        println("Congregation# \(congregationId)")
+        //println("Congregation# \(congregationId)")
         requestSave(PFClassName, id: id, status:status, category:category, congregationId:congregationId)
         requestGet(PFClassName, congregationId:congregationId, callback: callback)
+    }
+    
+    func addTerritory(PFClassName:String, id:Int, status:String, category:String, congregationId:String) {
+        
+    
+        //println("Congregation# \(congregationId)")
+        requestSave(PFClassName, id: id, status:status, category:category, congregationId:congregationId)
     }
     
     func updateByTerritoryId(PFClassName:String, territoryId:Int, status:String, category:String, congregationId:String) {
@@ -34,7 +43,7 @@ class TerritoryService : NSObject {
     func requestSave(PFClassName:String, id:Int, status:String, category:String, congregationId:String) {
         
         let territory = PFObject(className: PFClassName)
-        var error:NSError?
+
         
         territory["territoryId"] = id
         territory["congregationId"] = congregationId
@@ -42,6 +51,18 @@ class TerritoryService : NSObject {
         territory["category"] = category
         territory["creator"] = PFUser.currentUser()
         territory.saveEventually()
+        territory.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                // The object has been saved.
+                self.saveError = nil
+            } else {
+                // There was a problem, check error.description
+                self.saveError = error
+
+            }
+        }
+
     
     }
     

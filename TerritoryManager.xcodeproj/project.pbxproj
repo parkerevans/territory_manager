@@ -42,6 +42,7 @@
 		C389594B1A3B9CF7001B3A1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C389594A1A3B9CF7001B3A1E /* Foundation.framework */; };
 		C3972B1B1A38C66100CF54FF /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3972B1A1A38C66100CF54FF /* SideBarTableViewController.swift */; };
 		C3972B1D1A38CE2100CF54FF /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3972B1C1A38CE2100CF54FF /* SideBar.swift */; };
+		C3A591091AAA26D000CFAADA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A591081AAA26D000CFAADA /* SignUpViewController.swift */; };
 		C3B18F421A2FA27D0017217A /* TerritoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B18F411A2FA27D0017217A /* TerritoriesTableViewController.swift */; };
 		C3B18F461A2FA83B0017217A /* TerritoryLogTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B18F451A2FA83B0017217A /* TerritoryLogTableTableViewController.swift */; };
 		C3CBA7AB1A48A18C00069AA0 /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CBA7AA1A48A18C00069AA0 /* Publisher.swift */; };
@@ -98,6 +99,7 @@
 		C389594C1A3B9DDB001B3A1E /* TerritoryManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TerritoryManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		C3972B1A1A38C66100CF54FF /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewController.swift; sourceTree = "<group>"; };
 		C3972B1C1A38CE2100CF54FF /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
+		C3A591081AAA26D000CFAADA /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		C3B18F411A2FA27D0017217A /* TerritoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerritoriesTableViewController.swift; sourceTree = "<group>"; };
 		C3B18F451A2FA83B0017217A /* TerritoryLogTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerritoryLogTableTableViewController.swift; sourceTree = "<group>"; };
 		C3CBA7AA1A48A18C00069AA0 /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				C346FA1D1A2E52FA00DC4B80 /* AppDelegate.swift */,
 				C389594C1A3B9DDB001B3A1E /* TerritoryManager-Bridging-Header.h */,
 				C346FA241A2E52FA00DC4B80 /* Main.storyboard */,
+				C3A591081AAA26D000CFAADA /* SignUpViewController.swift */,
 				C377FDA11A43687C0052F258 /* CheckInOutViewController.swift */,
 				C38916CE1A421E3A003C807F /* SixMonthTableViewController.swift */,
 				C3972B1A1A38C66100CF54FF /* SideBarTableViewController.swift */,
@@ -363,6 +366,7 @@
 				C346FA1E1A2E52FA00DC4B80 /* AppDelegate.swift in Sources */,
 				C3972B1D1A38CE2100CF54FF /* SideBar.swift in Sources */,
 				C348EAEA1A52F636003A1FB0 /* TerritoryLogService.swift in Sources */,
+				C3A591091AAA26D000CFAADA /* SignUpViewController.swift in Sources */,
 				C377FDA21A43687C0052F258 /* CheckInOutViewController.swift in Sources */,
 				C3972B1B1A38C66100CF54FF /* SideBarTableViewController.swift in Sources */,
 				C348EAE81A52F620003A1FB0 /* TerritoryService.swift in Sources */,
